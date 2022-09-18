@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard.min.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_arrows.min.css"
+        rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="#" class="form" id="forms" onsubmit="event.preventDefault()">
+      
+    
+            <div class="progressbar">
+              <div class="progress" id="progress"></div>
+              
+              <div
+                class="progress-step progress-step-active"
+                data-title="Account"
+              ></div>
+              
+              <div class="progress-step" data-title="Info"></div>
+              <div class="progress-step" data-title="Certificate Info"></div>
+            </div>
+            <div class="step-forms step-forms-active">
+              
+              <div class="group-inputs">
+                <label for="position">Email</label>
+                <input type="text" name="position" id="position" />
+              </div>
+              <div class="group-inputs">
+                <label for="email">Password</label>
+                <input type="text" name="email" id="email" />
+              </div>
+              <div class="">
+                <a href="#" class="btn btn-next width-50 ml-auto">Next</a>
+              </div>
+            </div>
+            <div class="step-forms">
+              <div class="group-inputs">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" id="name" />
+              </div>
+              <div class="group-inputs">
+                <label for="fname">Father Name</label>
+                <input type="text" name="fname" id="fname" />
+              </div>
+              <div class="group-inputs">
+                <label for="board">Board</label>
+                <input type="text" name="board" id="board" />
+              </div>
+              <div class="group-inputs">
+                <label for="group">Group</label>
+                <input type="text" name="group" id="group" />
+              </div>
+              <div class="btns-group">
+                <a href="#" class="btn btn-prev">Previous</a>
+                <a href="#" class="btn btn-next">Next</a>
+              </div>
+            </div>
+            <div class="step-forms">
+              <div class="group-inputs">
+                <label for="dob">Date of Birth</label>
+                <input type="date" name="dob" id="dob" />
+              </div>
+              <div class="group-inputs">
+                <label for="ID">Roll No</label>
+                <input type="number" name="roll" id="ID" />
+              </div>
+      
+              <div class="group-inputs">
+                <label for="ID">Registration No</label>
+                <input type="number" name="ID" id="ID" />
+              </div>
+
+              <div class="group-inputs">
+                <label for="ID">GPA (without additional subject)</label>
+                <input type="number" name="ID" id="ID" />
+              </div>
+
+              <div class="group-inputs">
+                <label for="ID">GPA</label>
+                <input type="number" name="ID" id="ID" />
+              </div>
+      
+              
+              <div class="btns-group">
+                <a href="#" class="btn btn-prev">Previous</a>
+                <input type="submit" value="Submit" id="submit-form" class="btn"/>
+              </div>
+            </div>
+          </form>
+    </div>
+</body>
+</html>
+
+<script>
+    const prevBtns = document.querySelectorAll(".btn-prev");
+const nextBtns = document.querySelectorAll(".btn-next");
+const progress = document.getElementById("progress");
+const formSteps = document.querySelectorAll(".step-forms");
+const progressSteps = document.querySelectorAll(".progress-step");
+
+
+let formStepsNum = 0;
+
+nextBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    formStepsNum++;
+    updateFormSteps();
+    updateProgressbar();
+   
+  });
+});
+
+prevBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    formStepsNum--;
+    updateFormSteps();
+    updateProgressbar();
+    
+  });
+});
+
+function updateFormSteps() {
+  formSteps.forEach((formStep) => {
+    formStep.classList.contains("step-forms-active") &&
+      formStep.classList.remove("step-forms-active");
+  });
+
+  formSteps[formStepsNum].classList.add("step-forms-active");
+}
+
+function updateProgressbar() {
+  progressSteps.forEach((progressStep, idx) => {
+    if (idx < formStepsNum + 1) {
+      progressStep.classList.add("progress-step-active");
+      
+    } else {
+      progressStep.classList.remove("progress-step-active");
+   
+    }
+  });
+
+  progressSteps.forEach((progressStep, idx) => {
+    if (idx < formStepsNum) {
+      
+      progressStep.classList.add("progress-step-check");
+    } else {
+   
+      progressStep.classList.remove("progress-step-check");
+    }
+  });
+ 
+  const progressActive = document.querySelectorAll(".progress-step-active");
+
+  progress.style.width =
+    ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
+}
+
+
+document.getElementById("submit-form").addEventListener("click", function () {
+
+    progressSteps.forEach((progressStep, idx) => {
+    if (idx <= formStepsNum) {
+      
+      progressStep.classList.add("progress-step-check");
+    } else {
+   
+      progressStep.classList.remove("progress-step-check");
+    }
+  });
+  
+   var forms = document.getElementById("forms");
+   forms.classList.remove("form");
+   forms.innerHTML = '<div class="welcome center"><div class="content"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><h2>Done!</h2><span>We will contact you soon!</span><div></div>';
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
